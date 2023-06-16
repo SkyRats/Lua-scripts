@@ -48,7 +48,7 @@ local vel = 1                 -- Velocidade do drone (m/s)
 ```
 
 
-Em seguida, há a função principal do código, a função `update()`, que será chamada assim que o código for iniciado (não foi indicado um tempo de espera na últma linha do código) e o seu return indica que a função será chamada novamente 100 ms após finalizar sua execução.
+Em seguida, há a função principal do código, a função `update()`, que será chamada assim que o código for iniciado (não foi indicado um tempo de espera na úlitma linha do código) e o seu return indica que a função será chamada novamente 100 ms após finalizar sua execução.
 
 ```lua
 function update()
@@ -109,7 +109,7 @@ No estado 3, primeiramente o drone checa se já realizou todas as voltas pedidas
 
 Primeiro ele cria um vetor 3d `target_vel` para armazenar a velocidade desejada. Em seguida, ele seta o valor de cada uma das componentes desse vetor criado (0 pra y e z e `vel` para x).
 
-Em seguida, ele usa a fução `vehicle:set_target_velocity_NED(target_vel)` para definier a velocidade do drone como a de `target_vel`. Se ele encontra algum problema, ele envia uma mensagem de aviso.
+Em seguida, ele usa a função `vehicle:set_target_velocity_NED(target_vel)` para definir a velocidade do drone como a de `target_vel`. Se ele encontra algum problema, ele envia uma mensagem de aviso.
 
 
 ``` lua
