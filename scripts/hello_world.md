@@ -1,6 +1,6 @@
 # Hello World
 
-Utiliza a função gcs:send_text(severity, text) para enviar mensagens à QGC.
+Uses the function `gcs:send_text(severity, text)` to send messages to the QGC.
 
 | Severity Level | Type      |
 |--------------- |-----------|

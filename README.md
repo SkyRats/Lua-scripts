@@ -12,14 +12,14 @@ Para testar os scripts de Lua em simulação utilizando a QGround e o SITL do ar
 
 -  Rodar o SITL 
         
-        ardupilot/ArduCopter/sim\_vehicle.py
+        ardupilot/ArduCopter/sim_vehicle.py
             
 -   Habilitar os scripts na QGS :
 
     - Clicar no ícone com o Q no canto superior esquerdo;
     - Ir em Vehicle Setup;
     - Ir em parameters;
-    - Buscar por "SCR\_ENABLE" e selecioná-lo;
+    - Buscar por "SCR_ENABLE" e selecioná-lo;
     - Mudar o valor de None para Lua (ou de 0 para 1);
     - Salvar (Talvez seja necessário encerrar e rodar novamente a simulação);
 
@@ -36,7 +36,7 @@ Para rodar os scripts no drone real, devemos enviar os arquivos de lua para o ca
 
 -  Retirar o cartão SD do drone;
 -   Abrir o conteúdo do cartão SD no computador (Talvez seja necessário o uso de um adaptador para leitura de micro SD);
--  O SD deve conter uma pasta \textbf{APM} e, dentro dela, uma pasta \textbf{scripts}. Se não houver, crie as duas;
+-  O SD deve conter uma pasta APM e, dentro dela, uma pasta scripts. Se não houver, crie as duas;
 -  Adicione ou modifique scripts de lua na pasta APM/scripts;
 -  Devolva o SD para o drone (Certifique-se de que encaixou certo, pois é bem fácil colocar errado);
 
@@ -50,7 +50,7 @@ Agora, para configurar os scripts pela QGround:
     - Clicar no ícone com o Q no canto superior esquerdo;
     - Ir em Vehicle Setup;
     - Ir em parameters;
-    - Buscar por "SCR\_ENABLE" e selecioná-lo;
+    - Buscar por "SCR_ENABLE" e selecioná-lo;
     - Mudar o valor de None para Lua (ou de 0 para 1);
     - Salvar (Talvez seja necessário conectar e desconectar o drone);
 
@@ -58,7 +58,7 @@ Agora, para configurar os scripts pela QGround:
     - Clicar no ícone com o Q no canto superior esquerdo;
     - Ir em Vehicle Setup;
     - Ir em parameters;
-    - Buscar por "SCR\_DIR\_DISABLE e marcar a caixinha com ROMFS (significa que ele não irá buscar scripts na pasta ROMFS, e sim na pasta APM/scripts);
+    - Buscar por "SCR_DIR_DISABLE e marcar a caixinha com ROMFS (significa que ele não irá buscar scripts na pasta ROMFS, e sim na pasta APM/scripts);
     - Salvar (Talvez seja necessário conectar e desconectar o drone);
 
 Pronto, agora assim que você ligar o drone os scripts já serão executados.
