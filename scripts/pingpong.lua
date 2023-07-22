@@ -9,7 +9,7 @@
 
 local takeoff_alt = 3 -- Altura de takeoff
 local copter_guided_mode_num = 4
-local copter_launch_mode_num = 6
+local copter_land_mode_num = 9
 local stage = 0
 local count = 0               -- Número de vezes que o drone foi para frente
 local max_count = 2           -- Número máximo de vezes que o drone deve ir para frente
@@ -96,7 +96,7 @@ function update()
             end
               
           elseif (stage == 5) then -- Stage5 :  change to land mode
-              vehicle:set_mode(copter_launch_mode_num)
+              vehicle:set_mode(copter_land_mode_num)
               stage = stage + 1
               gcs:send_text(6, "Finished pingpong, switching to land")
           end

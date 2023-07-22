@@ -13,7 +13,7 @@ Esse script faz o drone ir para frente e para trás a uma distância e número d
 ## Variáveis:
 - `takeoff_alt`: Altitude de takeoff em metros
 - `copter_guided_mode_num`: Número do modo de voo Guided
-- `copter_launch_mode_num`:Número do modo de voo Land
+- `copter_land_mode_num`:Número do modo de voo Land
 - `stage`: Estado atual do código
 - `count`: Número de vezes que o drone foi pra frente
 - `max_count`: Número máximo de repetições
@@ -23,7 +23,7 @@ Esse script faz o drone ir para frente e para trás a uma distância e número d
 ## Entendendo o código:
 
 Primeiro, há um comentário explicando o que é o código e como ele funciona. Em seguida, declaram-se as variáveis locais que serão utilizadas.
- O `copter_guided_mode_num` e o `copter_launch_mode_num `são números padrões, definidos pelo ardupilot, dos modos de voo Guided e Land, respectivamente. As demais variáveis são definições que o usuário escolhe de acordo com o comportamento que espera, indicado no comentário na frente de cada uma.
+ O `copter_guided_mode_num` e o `copter_land_mode_num `são números padrões, definidos pelo ardupilot, dos modos de voo Guided e Land, respectivamente. As demais variáveis são definições que o usuário escolhe de acordo com o comportamento que espera, indicado no comentário na frente de cada uma.
 
 ```lua
 -- Esse script faz o drone ir para frente e para trás
@@ -38,7 +38,7 @@ Primeiro, há um comentário explicando o que é o código e como ele funciona. 
 
 local takeoff_alt = 3         -- Altura de takeoff
 local copter_guided_mode_num = 4
-local copter_launch_mode_num = 6
+local copter_land_mode_num = 6
 local stage = 0
 local count = 0               -- Número de vezes que o drone foi para frente
 local max_count = 2           -- Número máximo de repetições
