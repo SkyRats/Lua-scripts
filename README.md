@@ -12,7 +12,7 @@ Para testar os scripts de Lua em simulação utilizando a QGround e o SITL do ar
 
 -  Rodar o SITL 
         
-        ardupilot/ArduCopter/sim\_vehicle.py
+        ardupilot/ArduCopter/sim_vehicle.py
             
 -   Habilitar os scripts na QGS :
 
