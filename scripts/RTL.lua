@@ -6,7 +6,7 @@ function update () -- periodic function that will be called
       local distance = current_pos:get_distance(home) -- calculate the distance from home in meters
       gcs:send_text(6, "Distância de home:  " .. distance)
   
-      if distance > 8 then
+      if distance > 40 then
         vehicle:set_mode(6)
         gcs:send_text(6, "Returning to Launch...")
       
