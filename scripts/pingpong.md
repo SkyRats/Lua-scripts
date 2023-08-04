@@ -1,54 +1,54 @@
 # Drone Ping-Pong Code
 
-Esse script faz o drone ir para frente e para trás a uma distância e número de vezes definidas.
+This script makes the drone go forward and backward a defined distance and number of times.
 
-## Estados
--  0:  Muda para o Guided mode
--  1:  Takeoff até a altura `takeoff_alt` 
--  2:  Espera até atingir a altura de takeoff
--  3:  Vai para frente até a distancia definida
--  4:  Volta para a posição inicial
--  5:  Muda para o Land mode
 
-## Variáveis:
-- `takeoff_alt`: Altitude de takeoff em metros
-- `copter_guided_mode_num`: Número do modo de voo Guided
-- `copter_land_mode_num`:Número do modo de voo Land
-- `stage`: Estado atual do código
-- `count`: Número de vezes que o drone foi pra frente
-- `max_count`: Número máximo de repetições
-- `ping_pong_distance`: Distância que o drone irá para frente em metros
-- `vel`: Velocidade do drone em metros por segundo
+## Stages
+- 0: Change to Guided mode
+- 1: Takeoff to the height defined by `takeoff_alt`
+- 2: Wait until reaching the takeoff altitude
+- 3: Go forward to the defined distance
+- 4: Go back to the initial position
+- 5: Change to Land mode
 
-## Entendendo o código:
+## Variables:
+- `takeoff_alt`: Takeoff height (m)
+- `copter_guided_mode_num`: Guided mode number
+- `copter_land_mode_num`: Land mode number
+- `stage`: current stage
+- `count`: Number of times the drone has gone forward
+- `max_count`: Maximum number of times the drone should go forward
+- `ping_pong_distance`: Distance up to which the drone should go forward (m)
+- `vel`: Drone velocity (m/s)
 
-Primeiro, há um comentário explicando o que é o código e como ele funciona. Em seguida, declaram-se as variáveis locais que serão utilizadas.
- O `copter_guided_mode_num` e o `copter_land_mode_num `são números padrões, definidos pelo ardupilot, dos modos de voo Guided e Land, respectivamente. As demais variáveis são definições que o usuário escolhe de acordo com o comportamento que espera, indicado no comentário na frente de cada uma.
+## Understand the code:
+First, there is a comment explaining what the code is about and how it works. Then, the local variables that will be used are declared.
+ The `copter_guided_mode_num` and `copter_land_mode_num `are standard numbers, defined by ArduPilot, for the Guided and Land flight modes, respectively. The other variables are user-defined settings according to the desired behavior, as indicated in the comments in front of each one.
 
 ```lua
--- Esse script faz o drone ir para frente e para trás
--- a uma distância e número de vezes definidos
--- Seus estados são :
---  0) Muda para o Guided mode
---  1) Takeoff até a altura takeoff_alt 
---  2) Espera até atingir a altura de takeoff
---  3) Vai para frente até a distância definida
---  4) Volta para a posição inicial
---  5) Muda para o land mode
+-- This script makes the drone go forward and backward at a defined distance and number of times.
+-- The stages are:
+-- 0) Change to Guided mode
+-- 1) Takeoff to the height defined by takeoff_alt
+-- 2) Wait until reaching the takeoff altitude
+-- 3) Go forward to the defined distance
+-- 4) Go back to the initial position
+-- 5) Change to Land mode
 
-local takeoff_alt = 3         -- Altura de takeoff
+
+local takeoff_alt = 3         -- Takeoff height
 local copter_guided_mode_num = 4
-local copter_land_mode_num = 6
+local copter_land_mode_num = 9
 local stage = 0
-local count = 0               -- Número de vezes que o drone foi para frente
-local max_count = 2           -- Número máximo de repetições
-local ping_pong_distance = 10 -- Distância até a qual o drone deve ir para frente (m)
-local vel = 1                 -- Velocidade do drone (m/s)
+local count = 0               -- Number of times the drone has gone forward
+local max_count = 2           -- Maximum number of times the drone should go forward
+local ping_pong_distance = 10 -- Distance up to which the drone should go forward (m)
+local vel = 1    
 
 ```
+Next, there's the main function of the code, the `update()` function, which will be called once the code is started (since it wasn't indicated a waiting time at the last line of the code) and its `return` indicates that this same fucntion will be called again 100ms after finishing its executuion.
 
 
-Em seguida, há a função principal do código, a função `update()`, que será chamada assim que o código for iniciado (não foi indicado um tempo de espera na úlitma linha do código) e o seu return indica que a função será chamada novamente 100 ms após finalizar sua execução.
 
 ```lua
 function update()
@@ -59,17 +59,16 @@ end
 return update()
 ```
 
-
-No if apresentado, o código está aguardando que o drone esteja armado para mudar para o próximo estado. Foi utilizada a função `is_armed()` da biblioteca `arming` para verificar se o drone está armado ou não. Também foi utilizada a função `send_text()` da biblioteca `gcs` para enviar uma mensagem ("Arming") de severidade 6 (informação) para a QGC. Assim, enquanto o drone não estiver armado, ele permanece no estado 0 do código.
+In the presented if, the code is waiting for the drone to be armed to change to the next stage. The is_armed() function from the arming library is used to check if the drone is armed or not. The send_text() function from the gcs library is used to send a message ("Arming") with severity 6 (information) to the GCS (Ground Control Station). Thus, while the drone is not armed, it remains in stage 0 of the code.
 
 ``` lua
 if not arming:is_armed() then
     stage = 0
     gcs:send_text(6, "Arming")
 ```
+If the drone is armed, it moves to the else section, which presents a behavior for each stage.
+In `stage 0`, the drone flight mode is changed to GUIDED MODE. To do this, it's used the function `set_mode()` of `vehicle` library, which receives the desired flight mode number(copter_guided_mode_num, defined in the local variables). When it verifies the drone has switched to the desired flight mode, it moves to the next stage. 
 
-Se o drone estiver armado, ele passa para o else, que apresenta um comportamento para cada um dos estados. 
-No `estado 0`, mudamos o modo de voo do drone para o GUIDED MODE. Assim, utilizamos a função `set_mode()` da biblioteca `vehicle`, que recebe o número do modo de voo desejado (copter_guided_mode_num, que foi definido em nossas variáveis). Quando ele verifica que o drone aderiu ao modo de voo desejado, ele passa para o próximo estado.
 
 ``` lua
 else
@@ -78,7 +77,7 @@ else
             stage = stage + 1
         end
 ``` 
-No estado 1, utilizamos a função `start_takeoff()` da biblioteca `vehicle` para o drone realizar o takeoff a uma altura definida pela variável `takeoff_alt`.
+in stage 1, it's used the `start_takeoff()` function from the `vehicle` library for the drone to take off to a height defined by the variable `takeoff_alt`.
 
 ``` lua
 elseif stage == 1 then
@@ -88,9 +87,9 @@ elseif stage == 1 then
     end
 ``` 
 
-No estado 2, utilizamos a função `ahrs:get_home()` para obter a localização de takeoff do drone e a função `ahrs:get_position()` para obter a posição atual do drone. Na linha 4, ele verifica se os valores obtidos não são nulos. Em seguida, a função `home:get_distance_NED()` armazena em `vec_from_home` um vetor 3D, com início em `curr_loc` e fim em `home`. Na linha 7, o código envia para a GCS o valor contido na coordenada z de `vec_from_home`, ou seja, a altura atual do drone (multiplicada por -1, pois o vetor aponta para a home, que está a uma altura inferior à atual).
+In stage 2, it's used the `ahrs:get_home()` function to get the drone's takeoff location, and the `ahrs:get_position()` function to get the drone's current position. In line 4, it checks that the obtained values are not null. Then, the `home:get_distance_NED()` function stores in `vec_from_home` a 3D vector, starting from `curr_loc` and ending at `home`. In line 7, the code sends to the GCS the value contained in the z-coordinate of `vec_from_home`, i.e., the current altitude of the drone (multiplied by -1 since the vector points towards home, which is at a lower altitude than the current position).
 
-Quando a diferença entre `takeoff_alt` e `vec_from_home:z()` for menor que 1, indicando que o drone atingiu a altura de takeoff, ele passa para o próximo estado (utiliza-se `math.abs()` para pegar o módulo e foi realizada uma soma em vez de subtração porque a componente z é negativa).
+When the difference between `takeoff_alt` and `vec_from_home:z()` is less than 1, indicating that the drone has reached the takeoff altitude, it moves to the next stage (`math.abs()` is used to get the absolute value, and we performed an addition instead of subtraction because the z component is negative).
 
 ``` lua
 elseif stage == 2 then
@@ -105,34 +104,34 @@ elseif stage == 2 then
     end
 ``` 
 
-No estado 3, primeiramente o drone checa se já realizou todas as voltas pedidas no `max_count`. Se sim, ele muda para o estado 5. Se não, ele executa os comandos do estado 3.
+In `stage3`, first, the drone checks if it has already performed all the requested loops specified in `max_count`. If so, it switches to `stage5`. If not, it executes the commands of `stage3`.
 
-Primeiro ele cria um vetor 3d `target_vel` para armazenar a velocidade desejada. Em seguida, ele seta o valor de cada uma das componentes desse vetor criado (0 pra y e z e `vel` para x).
+First, it creates a 3D vector `target_vel` to store the desired velocity. Then, it sets the value of each of the components of this created vector (0 for y and z, and `vel` for x).
 
-Em seguida, ele usa a função `vehicle:set_target_velocity_NED(target_vel)` para definir a velocidade do drone como a de `target_vel`. Se ele encontra algum problema, ele envia uma mensagem de aviso.
+Then, it uses the `vehicle:set_target_velocity_NED(target_vel)` function to set the drone's velocity as that of `target_vel`. If it encounters any issues, it sends a warning message.
 
 
 ``` lua
 elseif (stage == 3) then -- Stage 3: Moving Forward
-    -- Se excedeu o número de vezes, muda para o stage 5
+    -- If the maximum number of times is exceeded, move to stage 5
     if (count >= max_count) then
         stage = stage + 2
     end
 
-    -- calculate velocity vector
+    -- Calculate velocity vector
     local target_vel = Vector3f()
     target_vel:x(vel)
     target_vel:y(0)
     target_vel:z(0)
 
-    -- send velocity request
+    -- Send velocity request
     if not (vehicle:set_target_velocity_NED(target_vel)) then
         gcs:send_text(6, "Failed to execute velocity command")
     end
 
 ``` 
 
-Depois, ele utiliza a mesma estratégia mostrada anteriormente de calcular o vetor distância do local de takeoff para verificar a distância x que andou. Quando a diferença entre a distância x que o drone deslocou e a `pinp_pong_distance` for menor que 1, ele incrementa o `count` e passa para o próximo estado.
+After that, it uses the same strategy as shown before to calculate the distance vector from the takeoff location to verify the distance `x` traveled. When the difference between the distance `x` that the drone traveled and the `ping_pong_distance` is less than 1, it increments the `count` and moves to the next stage.
 ``` lua
 
     -- checking if reached stop point
@@ -149,7 +148,7 @@ Depois, ele utiliza a mesma estratégia mostrada anteriormente de calcular o vet
 end
 
 ``` 
-No estado quatro, a velocidade em x é multiplicada por -1 para o drone voar na direção contrária, retornando para a posição de takeoff. Quando a diferença entre a posição x do drone e a posição x de takeoff do drone for menor que 1, ele volta para o estado 3, para iniciar o movimento de ir para a frente novamente (ou não, caso o count tenha atingido o max_count).
+In `Stage4`, the velocity in `x` is multiplied by -1 for the drone to fly in the opposite direction, returning to the takeoff position. When the difference between the drone's position `x` and the takeoff position's `x` is less than 1, it goes back to `Stage3` to start the forward movement again (or not, if the `count` has reached `max_count`).
 
 ``` lua
 elseif (stage == 4) then -- Stage 4: Moving Back
@@ -177,7 +176,7 @@ elseif (stage == 4) then -- Stage 4: Moving Back
 end
 
 ``` 
-No estado 5, o drone simplesmente muda para o modo de voo Land e pousa, indicando por mensagem que finalizou o código.
+In `stage5`, the drone simply changes to the Land flight mode and lands, indicating the completion of the code through a message.
 ``` lua
 elseif (stage == 5) then -- Stage 5: Change to LAND mode
     vehicle:set_mode(copter_rtl_mode_num)
