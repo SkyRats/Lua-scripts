@@ -1,4 +1,4 @@
--- Muda para o modo RTL quando se distância 40m de seu ponto de takeoff
+-- Changes to RTL mode when the vehicle is 40m away from its takeoff point
 function update () -- periodic function that will be called
     local current_pos = ahrs:get_position() -- fetch the current position of the vehicle
     local home = ahrs:get_home()            -- fetch the home position of the vehicle
