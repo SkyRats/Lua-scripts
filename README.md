@@ -1,64 +1,63 @@
 # Lua-scripts
 
-## Rodar em simulação
+## Running in Simulation
 
+To test Lua scripts in simulation using QGround and ArduPilot's SITL, follow these steps:
 
-
-Para testar os scripts de Lua em simulação utilizando a QGround e o SITL do ardupilot, basta seguir os seguintes passos:
-
--  Rodar a qground 
+-  Run QGround:
 
         ./QGroundControl.AppImage
 
--  Rodar o SITL 
+-  Run SITL 
         
         ardupilot/ArduCopter/sim_vehicle.py
             
--   Habilitar os scripts na QGS :
+-   Enable scripts in QGS :
 
-    - Clicar no ícone com o Q no canto superior esquerdo;
-    - Ir em Vehicle Setup;
-    - Ir em parameters;
-    - Buscar por "SCR_ENABLE" e selecioná-lo;
-    - Mudar o valor de None para Lua (ou de 0 para 1);
-    - Salvar (Talvez seja necessário encerrar e rodar novamente a simulação);
-
-
-
--  Será criada uma pasta "scripts" na pasta em que a simulação estiver rodando (ardupilot/ArduCopter)
-
--  Adicione os script de lua nessa pasta e, ao rodar novamente o STIL, todos os scripts da pasta serão executados;
-
-## Rodar no drone real
-
-Para rodar os scripts no drone real, devemos enviar os arquivos de lua para o cartão SD do drone. Abaixo está o passo a passo:
+    - Click on the icon with the letter "Q" in the top left corner;
+    - Go to Vehicle Setup.;
+    - Navigate to parameters;
+    - Search for "SCR_ENABLE" and select it;
+    - Change the value from None to Lua (or from 0 to 1);
+    - Save (You might need to restart the simulation);
 
 
--  Retirar o cartão SD do drone;
--   Abrir o conteúdo do cartão SD no computador (Talvez seja necessário o uso de um adaptador para leitura de micro SD);
--  O SD deve conter uma pasta APM e, dentro dela, uma pasta scripts. Se não houver, crie as duas;
--  Adicione ou modifique scripts de lua na pasta APM/scripts;
--  Devolva o SD para o drone (Certifique-se de que encaixou certo, pois é bem fácil colocar errado);
 
-Agora, para configurar os scripts pela QGround:
+-  A folder named "scripts" will be created in the same directory where the simulation is running (ardupilot/ArduCopter)
 
--  Rodar a qground 
+-  Add the Lua scripts to this folder, and when you run SITL again, all the scripts in the folder will be executed.
+
+## Running on the Real Drone
+
+To run Lua scripts on the real drone, you need to send the Lua script files to the drone's SD card. Below are the steps to do this:
+
+
+- Remove the SD card from the drone;
+- Access the SD card content on your computer (you might need a micro SD adapter for this);
+- The SD card should contain an "APM" folder, and within it, a "scripts" folder. If these folders don't exist, create them;
+- Add or modify Lua scripts in the "APM/scripts" folder;
+- Insert the SD card back into the drone (make sure it's properly inserted);
+
+Now, to configure the scripts through QGround:
+
+-  Run  QGround 
         ./QGroundControl.AppImage
--  Conecte o Drone ao seu computador (com USB diretamente ou por telemetria);
--  Habilitar os scripts na QGS :
+-  Connect the drone to your computer (via USB directly or through telemetry).
 
-    - Clicar no ícone com o Q no canto superior esquerdo;
-    - Ir em Vehicle Setup;
-    - Ir em parameters;
-    - Buscar por "SCR_ENABLE" e selecioná-lo;
-    - Mudar o valor de None para Lua (ou de 0 para 1);
-    - Salvar (Talvez seja necessário conectar e desconectar o drone);
+- Enable scripts in QGS:
 
--   Caso esteja ocorrendo um erro de scripts out of memory:
-    - Clicar no ícone com o Q no canto superior esquerdo;
-    - Ir em Vehicle Setup;
-    - Ir em parameters;
-    - Buscar por "SCR_DIR_DISABLE e marcar a caixinha com ROMFS (significa que ele não irá buscar scripts na pasta ROMFS, e sim na pasta APM/scripts);
-    - Salvar (Talvez seja necessário conectar e desconectar o drone);
+    - Click on the icon with the letter "Q" in the top left corner.
+    - Go to Vehicle Setup.
+    - Navigate to parameters.
+    - Search for "SCR_ENABLE" and select it.
+    - Change the value from None to Lua (or from 0 to 1).
+    - Save (You might need to connect and disconnect the drone).
+- If you encounter an "out of memory" error with scripts:
 
-Pronto, agora assim que você ligar o drone os scripts já serão executados.
+    - Click on the icon with the letter "Q" in the top left corner.
+    - Go to Vehicle Setup.
+    - Navigate to parameters.
+    - Search for "SCR_DIR_DISABLE" and check the option "ROMFS" (this means it won't look for scripts in the ROMFS folder, but in the "APM/scripts" folder).
+    - Save (You might need to connect and disconnect the drone).
+
+Now, when you power on the drone, the scripts will be executed automatically.
